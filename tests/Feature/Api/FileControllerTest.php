@@ -4,6 +4,7 @@ namespace Tests\Feature\Api;
 
 use App\Models\File;
 use App\Models\FileCategory;
+use App\Models\FileRelationType;
 use App\Models\User;
 use Database\Seeders\FileSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -30,6 +31,8 @@ class FileControllerTest extends TestCase
 
         $response = $this->postJson('/api/files', [
             'file' => $fake_file,
+            'relation_id' => 1,
+            'relation_type_id' => FileRelationType::CUSTOMER,
             'file_category_id' => $file_category->id,
         ]);
 
@@ -52,6 +55,8 @@ class FileControllerTest extends TestCase
         Sanctum::actingAs($user);
         $this->postJson('/api/files', [
             'file' => $fake_file,
+            'relation_id' => 1,
+            'relation_type_id' => FileRelationType::CUSTOMER,
             'file_category_id' => $file_category->id,
         ])->assertCreated();
 

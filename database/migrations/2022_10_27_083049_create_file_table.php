@@ -38,6 +38,7 @@ return new class extends Migration
 
         Schema::create('file_relation', function (Blueprint $table) {
             $table->increments('id');
+            $table->bigInteger('relation_id');
             $table->bigInteger('file_id');
             $table->integer('file_relation_type_id');
             $table->foreign('file_id')
@@ -46,6 +47,7 @@ return new class extends Migration
             $table->foreign('file_relation_type_id')
                 ->references('id')
                 ->on('file_relation_type');
+            $table->index('relation_id');
             $table->index('file_id');
             $table->index('file_relation_type_id');
         });

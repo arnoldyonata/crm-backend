@@ -28,8 +28,9 @@ class FileRepository
         $file_model->save();
 
         $file_relation = new FileRelation();
+        $file_relation->relation_id = $validated['relation_id'];
         $file_relation->file_id = $file_model->id;
-        $file_relation->file_relation_type_id = FileRelationType::CUSTOMER;
+        $file_relation->file_relation_type_id = $validated['relation_type_id'];
         $file_relation->save();
 
         return $file_model;
