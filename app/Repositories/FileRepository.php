@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\File;
 use App\Models\FileRelation;
-use App\Models\FileRelationType;
 use Illuminate\Support\Facades\Storage;
 
 class FileRepository

@@ -31,8 +31,9 @@ class FileController extends Controller
     public function show(File $file): JsonResponse
     {
         $url = $this->repository->generateTemporaryUrl($file);
+
         return response()->json([
-            'url' => $url
+            'url' => $url,
         ]);
     }
 }
