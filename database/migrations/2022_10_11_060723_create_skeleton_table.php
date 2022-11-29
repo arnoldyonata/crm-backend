@@ -240,6 +240,7 @@ return new class extends Migration
             $table->index('imsi_id');
             $table->index('product_id');
             $table->index('pack_type_id');
+            $table->unique(['imsi_id', 'number_id']);
             $table->timestamps();
             $table->softDeletes();
         });
