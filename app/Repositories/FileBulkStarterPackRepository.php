@@ -100,6 +100,14 @@ class FileBulkStarterPackRepository extends BaseRepository
         return $exists->pluck('number')->all();
     }
 
+    public function checkExistingPack(FileBulkStarterPack $row)
+    {
+        return Pack::query()
+            ->where('number_id', $row->number_id)
+            ->orWhere('imsi_id', $row->imsi_id)
+            ->count();
+    }
+
     public function createPack(FileBulkStarterPack $row): Pack | null
     {
         $product = $this->getProductByName($row->product);

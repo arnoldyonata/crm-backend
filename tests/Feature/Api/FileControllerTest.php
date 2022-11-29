@@ -9,6 +9,7 @@ use App\Models\FileCategory;
 use App\Models\FileRelationType;
 use App\Models\Imsi;
 use App\Models\Number;
+use App\Models\Pack;
 use App\Models\RowStatus;
 use App\Models\User;
 use Database\Seeders\FileSeeder;
@@ -185,7 +186,31 @@ class FileControllerTest extends TestCase
         $this->assertEquals(2, FileBulkStarterPack::count());
         $this->assertEquals(2, Imsi::count());
         $this->assertEquals(2, Number::count());
-        $this->assertEquals(2, \App\Models\Pack::count());
+        $this->assertEquals(2, Pack::count());
+
+        // uploading same file pack number should be the same
+        $this->postJson('/api/files', [
+            'file' => $file,
+            'file_category_id' => FileCategory::BULK_STARTER_PACK,
+        ])->assertStatus(201);
+        $this->assertEquals(4, FileBulkStarterPack::count());
+        $this->assertEquals(2, Imsi::count());
+        $this->assertEquals(2, Number::count());
+        $this->assertEquals(2, Pack::count());
+
+        // uploading same file pack number should be the same
+        $same_number = <<<'EOD'
+        id,imsi,pin,puk_1,puk_2,ki,network,number,product
+        1,123456789012342,12345,123456,123456,ABCDEF012345,4G,7299250,Easi 4G
+        2,123456789012343,12345,123456,123456,ABCDEF012345,4G,7299251,Easi 4G
+        
+        EOD;
+        $file_same_number = $file_factory->createWithContent('pack.csv', $same_number);
+        $this->postJson('/api/files', [
+            'file' => $file_same_number,
+            'file_category_id' => FileCategory::BULK_STARTER_PACK,
+        ])->assertStatus(201);
+        $this->assertEquals(2, Pack::count());
     }
 
     public function test_users_can_update_uploaded_file()

@@ -34,21 +34,14 @@ class BulkStarterPackInsertion implements ShouldQueue
                 if (in_array($row->imsi, $exists_imsis)) {
                     $row->row_status_id = RowStatus::FAIL;
                     $row->error = Error::IMSI_EXISTS;
-                    $this->repo->save();
-
-                    continue;
-                }
-                if (in_array($row->number, $exists_numbers)) {
-                    $row->row_status_id = RowStatus::FAIL;
-                    $row->error = Error::NUMBER_EXISTS;
-                    $this->repo->save();
+                    $this->repo->save($row);
 
                     continue;
                 }
                 if (($product = $row->product) === null) {
                     $row->row_status_id = RowStatus::FAIL;
                     $row->error = Error::PRODUCT_NOT_EXISTS;
-                    $this->repo->save();
+                    $this->repo->save($row);
 
                     continue;
                 }
@@ -60,6 +53,13 @@ class BulkStarterPackInsertion implements ShouldQueue
 
                 $row->imsi_id = $imsi->id;
                 $row->number_id = $number->id;
+                if ($this->repo->checkExistingPack($row)) {
+                    $row->error = Error::PACK_EXISTS;
+                    $row->row_status_id = RowStatus::FAIL;
+                    $this->repo->save($row);
+
+                    continue;
+                }
                 $this->repo->createPack($row);
                 $row->row_status_id = RowStatus::SUCCESS;
                 $this->repo->save($row);
