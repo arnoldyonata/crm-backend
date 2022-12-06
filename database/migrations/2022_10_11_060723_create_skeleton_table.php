@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -336,6 +337,10 @@ return new class extends Migration
             $table->foreign('ic_type_id')->references('id')->on('ic_type');
             $table->index('ic_type_id');
         });
+
+        if (env('DB_CONNECTION') === 'pgsql') {
+            DB::statement('ALTER SEQUENCE customer_id_seq RESTART WITH 71000000');
+        }
     }
 
     /**
