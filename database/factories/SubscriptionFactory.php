@@ -17,8 +17,8 @@ class SubscriptionFactory extends Factory
         return [
             'customer_id' => Customer::factory(),
             'registration_date' => now(),
-            'subscription_status_id' => SubscriptionStatus::factory(),
-            'subscription_type_id' => SubscriptionType::factory(),
+            'subscription_status_id' => SubscriptionStatus::ACTIVE,
+            'subscription_type_id' => SubscriptionType::PREPAID,
         ];
     }
 }
