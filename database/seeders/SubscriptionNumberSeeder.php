@@ -14,15 +14,16 @@ class SubscriptionNumberSeeder extends Seeder
      */
     public function run()
     {
-        $insert = [];
-        for ($i = 1; $i < 145; $i++) {
-            $insert[] = [
-                'subscription_id' => $i,
-                'number_id' => $i,
-                'imsi_id' => $i,
-                'activation_date' => now(),
-            ];
-        }
-        SubscriptionNumber::insert($insert);
+//        $insert = [];
+//        for ($i = 1; $i < 145; $i++) {
+//            $insert[] = [
+//                'subscription_id' => $i,
+//                'number_id' => $i,
+//                'imsi_id' => $i,
+//                'activation_date' => now(),
+//            ];
+//        }
+
+        SubscriptionNumber::factory()->count(150)->create();
     }
 }

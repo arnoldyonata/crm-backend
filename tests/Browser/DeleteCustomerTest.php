@@ -14,8 +14,9 @@ class DeleteCustomerTest extends CustomDuskTestCase
             $ic_number = '01992233';
 
             $this->loginAsAdmin($browser);
+            $count = Customer::count();
             $this->createNewCustomer($browser, $ic_number);
-            $this->assertDatabaseCount('customer', 31);
+            $this->assertDatabaseCount('customer', $count + 1);
 
             $customer = Customer::where('ic_number', $ic_number)->firstOrFail();
 
